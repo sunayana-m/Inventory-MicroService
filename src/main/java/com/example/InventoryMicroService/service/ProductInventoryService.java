@@ -1,5 +1,6 @@
 package com.example.InventoryMicroService.service;
 
+import com.example.InventoryMicroService.dto.Product;
 import com.example.InventoryMicroService.dto.ProductInventoryDTO;
 import com.example.InventoryMicroService.entity.ProductInventory;
 
@@ -15,4 +16,6 @@ public interface ProductInventoryService {
     ProductInventory editProductInventory(ProductInventoryDTO productInventoryDTO, String inventoryId);
 
     void deleteProductInventory(String inventoryId);
+
+    List<Product> getProdutsByFeign();
 }

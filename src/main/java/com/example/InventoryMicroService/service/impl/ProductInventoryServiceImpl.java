@@ -1,10 +1,10 @@
 package com.example.InventoryMicroService.service.impl;
 
-import com.example.InventoryMicroService.dto.MerchantDTO;
+import com.example.InventoryMicroService.dto.Product;
 import com.example.InventoryMicroService.dto.ProductInventoryDTO;
 import com.example.InventoryMicroService.entity.Merchant;
 import com.example.InventoryMicroService.entity.ProductInventory;
-import com.example.InventoryMicroService.repository.MerchantRepository;
+import com.example.InventoryMicroService.feignClient.ProductServiceFeign;
 import com.example.InventoryMicroService.repository.ProductInventoryRepository;
 import com.example.InventoryMicroService.service.MerchantService;
 import com.example.InventoryMicroService.service.ProductInventoryService;
@@ -16,7 +16,6 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class ProductInventoryServiceImpl implements ProductInventoryService {
@@ -26,6 +25,9 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
 
     @Autowired
     MerchantService merchantService;
+
+    @Autowired
+    ProductServiceFeign productFeign;
 
 
     @Override
@@ -76,6 +78,11 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
         } catch (Exception e) {
             throw new EntityNotFoundException("Course not found with ID: " + inventoryId);
         }
+    }
+
+    @Override
+    public List<Product> getProdutsByFeign() {
+        return productFeign.getAll();
     }
 
 }

@@ -17,8 +17,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/merchantReport")
 public class MerchantReportController {
+
     @Autowired
     MerchantReportService merchantReportService;
+    
     @Autowired
     MerchantService merchantService;
 

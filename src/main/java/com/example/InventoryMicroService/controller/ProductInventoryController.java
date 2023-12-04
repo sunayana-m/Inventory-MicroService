@@ -1,6 +1,7 @@
 package com.example.InventoryMicroService.controller;
 
 
+import com.example.InventoryMicroService.dto.Product;
 import com.example.InventoryMicroService.dto.ProductInventoryDTO;
 
 import com.example.InventoryMicroService.entity.ProductInventory;
@@ -55,6 +56,11 @@ public class ProductInventoryController {
         BeanUtils.copyProperties(productInventory,productInventoryDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(productInventoryDTO);
+    }
+
+    @GetMapping("/feign")
+    public List<Product> getProducts(){
+        return productInventoryService.getProdutsByFeign();
     }
 
 

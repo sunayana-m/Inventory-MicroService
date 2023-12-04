@@ -47,6 +47,16 @@ public class MerchantController {
         return ResponseEntity.status(HttpStatus.OK).body(merchantDTOList);
     }
 
+    @GetMapping("/get/{merchantId}")
+    public ResponseEntity<MerchantDTO> getMerchantReportsById(@PathVariable String merchantId) {
+        Merchant merchant = merchantService.getMerchantById(merchantId);
+        MerchantDTO merchantDTO = new MerchantDTO();
+
+        BeanUtils.copyProperties(merchant,merchantDTO);
+
+        return ResponseEntity.status(HttpStatus.OK).body(merchantDTO);
+    }
+
 
     @DeleteMapping("/delete/{merchantId}")
     public ResponseEntity<Void> deleteMerchantById(@PathVariable String merchantId) {
