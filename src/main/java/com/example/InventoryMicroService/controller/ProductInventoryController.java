@@ -4,6 +4,7 @@ package com.example.InventoryMicroService.controller;
 import com.example.InventoryMicroService.dto.Product;
 import com.example.InventoryMicroService.dto.ProductInventoryDTO;
 
+import com.example.InventoryMicroService.entity.Merchant;
 import com.example.InventoryMicroService.entity.ProductInventory;
 import com.example.InventoryMicroService.service.ProductInventoryService;
 import org.springframework.beans.BeanUtils;
@@ -16,13 +17,14 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/productInventory")
 public class ProductInventoryController {
     @Autowired
     ProductInventoryService productInventoryService;
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<ProductInventoryDTO> addProductInventory(@RequestBody ProductInventoryDTO productInventoryDTO) {
         try {
             ProductInventory productInventory = productInventoryService.addProductInventory(productInventoryDTO);
@@ -36,7 +38,7 @@ public class ProductInventoryController {
         }
     }
 
-    @GetMapping
+    @GetMapping("get-all-inventory")
     public ResponseEntity<List<ProductInventoryDTO>> getAllProdcutInventory() {
         List<ProductInventory> allProductInventory = productInventoryService.getAllProductInventory();
         List<ProductInventoryDTO> productInventoryDTOList = new ArrayList<>();
@@ -48,8 +50,8 @@ public class ProductInventoryController {
         return ResponseEntity.status(HttpStatus.OK).body(productInventoryDTOList);
     }
 
-    @GetMapping("/get/{productInventoryId}")
-    public ResponseEntity<ProductInventoryDTO> getMerchantReportsById(@PathVariable String productInventoryId) {
+    @GetMapping("/get-product-inventory-by-id/{productInventoryId}")
+    public ResponseEntity<ProductInventoryDTO> getProductInventoryById(@PathVariable String productInventoryId) {
         ProductInventory productInventory = productInventoryService.getProductInventoryById(productInventoryId);
         ProductInventoryDTO productInventoryDTO = new ProductInventoryDTO();
 
@@ -58,13 +60,24 @@ public class ProductInventoryController {
         return ResponseEntity.status(HttpStatus.OK).body(productInventoryDTO);
     }
 
+    @GetMapping("/get-products-by-merchant-id/{merchantId}")
+    public ResponseEntity<List<ProductInventory>> getProductsByMerchant(@PathVariable String merchantId) {
+        List<ProductInventory> productInventoryList = productInventoryService.findByMerchantId(merchantId);
+        return new ResponseEntity<>(productInventoryList, HttpStatus.OK);
+    }
+
+    @GetMapping("/get-merchants-by-product-id/{productId}")
+    public List<Merchant> findMerchantsByProductId(@PathVariable String productId) {
+        return productInventoryService.findMerchantsByProductId(productId);
+    }
+
     @GetMapping("/feign")
-    public List<Product> getProducts(){
-        return productInventoryService.getProdutsByFeign();
+    public Product getProductById(@RequestParam String productId){
+        return productInventoryService.getProductByFeign(productId);
     }
 
 
-    @DeleteMapping("/delete/{inventoryId}")
+    @DeleteMapping("/delete-product-inventory-by-id/{inventoryId}")
     public ResponseEntity<Void> deleteProductInventoryById(@PathVariable String inventoryId) {
         try {
             productInventoryService.deleteProductInventory(inventoryId);
@@ -74,7 +87,7 @@ public class ProductInventoryController {
         }
     }
 
-    @PutMapping("/update/{inventoryId}")
+    @PutMapping("/update-product-inventory-by-id/{inventoryId}")
     public ResponseEntity<ProductInventoryDTO> updateProductInventory(@RequestBody ProductInventoryDTO productInventoryDTO, @PathVariable String inventoryId) {
         try {
             ProductInventory updateProductInventory = productInventoryService.editProductInventory(productInventoryDTO,inventoryId);

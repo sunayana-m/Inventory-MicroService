@@ -12,6 +12,7 @@ import java.util.List;
 
 @Repository
 public interface MerchantReportRepository extends CrudRepository<MerchantReport,String> {
+  List<MerchantReport> getByMerchantId(String merchantId);
 
   @Query("SELECT mr FROM MerchantReport mr WHERE mr.merchant.id = :merchantId")
   List<MerchantReport> getMerchantReportByMerchantId(@Param("merchantId") String merchantId);

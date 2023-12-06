@@ -44,6 +44,18 @@ public class MerchantReportServiceImpl implements MerchantReportService {
 
 
     @Override
+    //public List<ProductResponseDto> getAllProduct() {
+    //        log.debug("Inside get all product");
+    //
+    //        Iterable<Product> productList = productRepository.findAll();
+    //        List<ProductResponseDto> productResponseDtoList = new ArrayList<>();
+    //        for (Product product : productList) {
+    //            ProductResponseDto productResponseDto = new ProductResponseDto();
+    //            BeanUtils.copyProperties(product, productResponseDto);
+    //            productResponseDtoList.add(productResponseDto);
+    //        }
+    //        return productResponseDtoList;
+    //    }
     public List<MerchantReport> getAllMerchantReports() {
         Iterable<MerchantReport> allMerchantReports = merchantReportRepository.findAll();
         List<MerchantReport> merchantReportsList = new ArrayList<>();
@@ -56,6 +68,7 @@ public class MerchantReportServiceImpl implements MerchantReportService {
         MerchantReport merchantReport = merchantReportRepository.findById(merchantReportId).get();
         return merchantReport;
     }
+
 
     @Override
     public MerchantReport editMerchantReport(MerchantReportDTO merchantReportDTO, String merchantReportId) {

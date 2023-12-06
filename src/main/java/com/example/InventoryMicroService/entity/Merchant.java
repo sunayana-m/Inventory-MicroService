@@ -16,7 +16,7 @@ import java.util.Set;
 public class Merchant {
     public static final String TABLE_NAME = "merchant";
     public static final String ID_COLUMN_NAME="ID";
-    public static final String FIRSR_NAME_COLUMN="FIRST_NAME";
+    public static final String FIRST_NAME_COLUMN="FIRST_NAME";
     public static final String SEQ_GEN_ALIAS="seq_gen_alias";
     public static final String SEQ_GEN_STRATEGY="uuid2";
 

@@ -20,7 +20,7 @@ public class MerchantController {
     @Autowired
     MerchantService merchantService;
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<MerchantDTO> addMerchant(@RequestBody MerchantDTO merchantDTO) {
         try {
             Merchant merchant = merchantService.addMerchant(merchantDTO);
@@ -35,7 +35,7 @@ public class MerchantController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/get-all")
     public ResponseEntity<List<MerchantDTO>> getAllMerchants() {
         List<Merchant> allMerchants = merchantService.getAllMerchants();
         List<MerchantDTO> merchantDTOList = new ArrayList<>();
@@ -47,8 +47,8 @@ public class MerchantController {
         return ResponseEntity.status(HttpStatus.OK).body(merchantDTOList);
     }
 
-    @GetMapping("/get/{merchantId}")
-    public ResponseEntity<MerchantDTO> getMerchantReportsById(@PathVariable String merchantId) {
+    @GetMapping("/get-merchant-by-id/{merchantId}")
+    public ResponseEntity<MerchantDTO> getMerchantById(@PathVariable String merchantId) {
         Merchant merchant = merchantService.getMerchantById(merchantId);
         MerchantDTO merchantDTO = new MerchantDTO();
 
@@ -58,7 +58,7 @@ public class MerchantController {
     }
 
 
-    @DeleteMapping("/delete/{merchantId}")
+    @DeleteMapping("/delete-by-id/{merchantId}")
     public ResponseEntity<Void> deleteMerchantById(@PathVariable String merchantId) {
         try {
             merchantService.deleteMerchant(merchantId);
@@ -68,7 +68,7 @@ public class MerchantController {
         }
     }
 
-    @PutMapping("/update/{merchantId}")
+    @PutMapping("/update-by-id/{merchantId}")
     public ResponseEntity<MerchantDTO> updateMerchant(@RequestBody MerchantDTO merchantDTO, @PathVariable String merchantId) {
         try {
             Merchant updateMerchant = merchantService.editMerchant(merchantDTO,merchantId);

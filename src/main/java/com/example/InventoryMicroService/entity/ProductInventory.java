@@ -1,6 +1,7 @@
 package com.example.InventoryMicroService.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -28,6 +29,7 @@ public class ProductInventory {
     private double price;
     private float discount;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "merchant_fk1",nullable = false)
     private Merchant merchant1;

@@ -5,6 +5,7 @@ import com.example.InventoryMicroService.dto.ProductInventoryDTO;
 import com.example.InventoryMicroService.entity.Merchant;
 import com.example.InventoryMicroService.entity.ProductInventory;
 import com.example.InventoryMicroService.feignClient.ProductServiceFeign;
+import com.example.InventoryMicroService.repository.MerchantRepository;
 import com.example.InventoryMicroService.repository.ProductInventoryRepository;
 import com.example.InventoryMicroService.service.MerchantService;
 import com.example.InventoryMicroService.service.ProductInventoryService;
@@ -24,10 +25,25 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
     ProductInventoryRepository productInventoryRepository;
 
     @Autowired
+    MerchantRepository merchantRepository;
+
+
+    @Autowired
     MerchantService merchantService;
 
     @Autowired
     ProductServiceFeign productFeign;
+
+    @Override
+    public List<Merchant> findMerchantsByProductId(String productId) {
+        // Step 1: Fetch merchant IDs by product ID
+        List<String> merchantIds = productInventoryRepository.findMerchantIdsByProductId(productId);
+
+        // Step 2: Fetch merchant details by the list of merchant IDs
+        List<Merchant> merchants = merchantRepository.findByIdIn(merchantIds);
+
+        return merchants;
+    }
 
 
     @Override
@@ -81,8 +97,13 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
     }
 
     @Override
-    public List<Product> getProdutsByFeign() {
-        return productFeign.getAll();
+    public List<ProductInventory> findByMerchantId(String merchantId) {
+        return productInventoryRepository.findByMerchant1Id(merchantId);
+    }
+
+    @Override
+    public Product getProductByFeign(String productId) {
+        return productFeign.getProductById(productId);
     }
 
 }
